@@ -11,6 +11,7 @@
     
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/immersive.css">
     
     <style>
         body { 
@@ -43,6 +44,11 @@
     </style>
 </head>
 <body x-data="{ openModal: false, activeProduct: {}, enquiryMessage: '', activeFilter: 'all', mobileMenuOpen: false }">
+
+    <!-- Ambient layers -->
+    <div class="grain-overlay" aria-hidden="true"></div>
+    <div class="cursor-glow" aria-hidden="true"></div>
+    <div class="scroll-progress" aria-hidden="true"></div>
 
     <!-- Navigation (Sticky) -->
     <nav class="fixed top-0 w-full z-40 bg-[#1a1714]/80 backdrop-blur-md border-b border-[#c9b89a]/50">
@@ -78,14 +84,14 @@
     <!-- Collection Header -->
     <section class="pt-32 pb-12 md:pt-48 md:pb-20 px-4 md:px-8">
         <div class="max-w-7xl mx-auto">
-            <h1 class="serif text-5xl md:text-7xl font-light mb-6">The Full <em>Collection</em></h1>
-            <div class="flex flex-col md:flex-row justify-between items-end gap-6 border-b border-[#c9b89a]/30 pb-8">
+            <h1 class="hero-line serif text-5xl md:text-7xl font-light mb-6">The Full <em>Collection</em></h1>
+            <div class="hero-line flex flex-col md:flex-row justify-between items-end gap-6 border-b border-[#c9b89a]/30 pb-8">
                 <p class="text-gray-300 max-w-md font-light italic">Explore our entire archive of Newar craftsmanship, from ceremonial chains to contemporary Himalayan bands.</p>
                 <div class="flex gap-6 md:gap-8 text-[10px] uppercase tracking-widest font-medium text-gray-300">
-                    <button @click="activeFilter = 'all'" :class="activeFilter === 'all' ? 'text-[#faf7f2] border-b border-[#faf7f2] pb-1' : 'hover:text-[#faf7f2] transition'">All Pieces</button>
-                    <button @click="activeFilter = 'rings'" :class="activeFilter === 'rings' ? 'text-[#faf7f2] border-b border-[#faf7f2] pb-1' : 'hover:text-[#faf7f2] transition'">Rings</button>
-                    <button @click="activeFilter = 'necklaces'" :class="activeFilter === 'necklaces' ? 'text-[#faf7f2] border-b border-[#faf7f2] pb-1' : 'hover:text-[#faf7f2] transition'">Necklaces</button>
-                    <button @click="activeFilter = 'earrings'" :class="activeFilter === 'earrings' ? 'text-[#faf7f2] border-b border-[#faf7f2] pb-1' : 'hover:text-[#faf7f2] transition'">Earrings</button>
+                    <button @click="activeFilter = 'all'" :class="activeFilter === 'all' ? 'text-[#faf7f2] is-active' : 'hover:text-[#faf7f2]'" class="filter-btn pb-1">All Pieces</button>
+                    <button @click="activeFilter = 'rings'" :class="activeFilter === 'rings' ? 'text-[#faf7f2] is-active' : 'hover:text-[#faf7f2]'" class="filter-btn pb-1">Rings</button>
+                    <button @click="activeFilter = 'necklaces'" :class="activeFilter === 'necklaces' ? 'text-[#faf7f2] is-active' : 'hover:text-[#faf7f2]'" class="filter-btn pb-1">Necklaces</button>
+                    <button @click="activeFilter = 'earrings'" :class="activeFilter === 'earrings' ? 'text-[#faf7f2] is-active' : 'hover:text-[#faf7f2]'" class="filter-btn pb-1">Earrings</button>
                 </div>
             </div>
         </div>
@@ -97,8 +103,16 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-16">
                 
                 <!-- Item 1 (Ring) -->
-                <div x-show="activeFilter === 'all' || activeFilter === 'rings'" class="group cursor-pointer" @click="openModal = true; activeProduct = { name: 'The Vajra Lattice Ring', type: 'Ring', material: '925 Sterling Silver', img: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=800' }">
-                    <div class="aspect-[3/4] overflow-hidden bg-white/5 mb-4">
+                <div x-show="activeFilter === 'all' || activeFilter === 'rings'"
+                     x-transition:enter="transition ease-out duration-300"
+                     x-transition:enter-start="opacity-0 transform scale-95"
+                     x-transition:enter-end="opacity-100 transform scale-100"
+                     x-transition:leave="transition ease-in duration-200"
+                     x-transition:leave-start="opacity-100 transform scale-100"
+                     x-transition:leave-end="opacity-0 transform scale-95"
+                     class="product-card group cursor-pointer reveal-scale" data-tilt data-delay="1" @click="openModal = true; activeProduct = { name: 'The Vajra Lattice Ring', type: 'Ring', material: '925 Sterling Silver', img: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=800' }">
+                    <div class="product-card-inner aspect-[3/4] overflow-hidden bg-white/5 mb-4 relative">
+                        <div class="product-shine"></div>
                         <img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=800" class="w-full h-full object-cover grayscale-[0.3] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000">
                     </div>
                     <h3 class="serif text-xl font-light">The Vajra Lattice Ring</h3>
@@ -106,8 +120,16 @@
                 </div>
 
                 <!-- Item 2 (Necklace) -->
-                <div x-show="activeFilter === 'all' || activeFilter === 'necklaces'" class="group cursor-pointer" @click="openModal = true; activeProduct = { name: 'Himalayan Link Chain', type: 'Necklace', material: '925 Sterling Silver', img: 'https://images.unsplash.com/photo-1611085583191-a3b181a88401?w=800' }">
-                    <div class="aspect-[3/4] overflow-hidden bg-white/5 mb-4">
+                <div x-show="activeFilter === 'all' || activeFilter === 'necklaces'"
+                     x-transition:enter="transition ease-out duration-300"
+                     x-transition:enter-start="opacity-0 transform scale-95"
+                     x-transition:enter-end="opacity-100 transform scale-100"
+                     x-transition:leave="transition ease-in duration-200"
+                     x-transition:leave-start="opacity-100 transform scale-100"
+                     x-transition:leave-end="opacity-0 transform scale-95"
+                     class="product-card group cursor-pointer reveal-scale" data-tilt data-delay="2" @click="openModal = true; activeProduct = { name: 'Himalayan Link Chain', type: 'Necklace', material: '925 Sterling Silver', img: 'https://images.unsplash.com/photo-1611085583191-a3b181a88401?w=800' }">
+                    <div class="product-card-inner aspect-[3/4] overflow-hidden bg-white/5 mb-4 relative">
+                        <div class="product-shine"></div>
                         <img src="https://images.unsplash.com/photo-1611085583191-a3b181a88401?w=800" class="w-full h-full object-cover grayscale-[0.3] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000">
                     </div>
                     <h3 class="serif text-xl font-light">Himalayan Link Chain</h3>
@@ -115,8 +137,16 @@
                 </div>
 
                 <!-- Item 3 (Earrings) -->
-                <div x-show="activeFilter === 'all' || activeFilter === 'earrings'" class="group cursor-pointer" @click="openModal = true; activeProduct = { name: 'Lotus Bud Earrings', type: 'Earrings', material: '925 Sterling Silver', img: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=800' }">
-                    <div class="aspect-[3/4] overflow-hidden bg-white/5 mb-4">
+                <div x-show="activeFilter === 'all' || activeFilter === 'earrings'"
+                     x-transition:enter="transition ease-out duration-300"
+                     x-transition:enter-start="opacity-0 transform scale-95"
+                     x-transition:enter-end="opacity-100 transform scale-100"
+                     x-transition:leave="transition ease-in duration-200"
+                     x-transition:leave-start="opacity-100 transform scale-100"
+                     x-transition:leave-end="opacity-0 transform scale-95"
+                     class="product-card group cursor-pointer reveal-scale" data-tilt data-delay="3" @click="openModal = true; activeProduct = { name: 'Lotus Bud Earrings', type: 'Earrings', material: '925 Sterling Silver', img: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=800' }">
+                    <div class="product-card-inner aspect-[3/4] overflow-hidden bg-white/5 mb-4 relative">
+                        <div class="product-shine"></div>
                         <img src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=800" class="w-full h-full object-cover grayscale-[0.3] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000">
                     </div>
                     <h3 class="serif text-xl font-light">Lotus Bud Earrings</h3>
@@ -124,8 +154,16 @@
                 </div>
 
                 <!-- Item 4 (Ring) -->
-                <div x-show="activeFilter === 'all' || activeFilter === 'rings'" class="group cursor-pointer" @click="openModal = true; activeProduct = { name: 'The Mandala Band', type: 'Ring', material: '925 Sterling Silver', img: 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=800' }">
-                    <div class="aspect-[3/4] overflow-hidden bg-white/5 mb-4">
+                <div x-show="activeFilter === 'all' || activeFilter === 'rings'"
+                     x-transition:enter="transition ease-out duration-300"
+                     x-transition:enter-start="opacity-0 transform scale-95"
+                     x-transition:enter-end="opacity-100 transform scale-100"
+                     x-transition:leave="transition ease-in duration-200"
+                     x-transition:leave-start="opacity-100 transform scale-100"
+                     x-transition:leave-end="opacity-0 transform scale-95"
+                     class="product-card group cursor-pointer reveal-scale" data-tilt data-delay="4" @click="openModal = true; activeProduct = { name: 'The Mandala Band', type: 'Ring', material: '925 Sterling Silver', img: 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=800' }">
+                    <div class="product-card-inner aspect-[3/4] overflow-hidden bg-white/5 mb-4 relative">
+                        <div class="product-shine"></div>
                         <img src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=800" class="w-full h-full object-cover grayscale-[0.3] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000">
                     </div>
                     <h3 class="serif text-xl font-light">The Mandala Band</h3>
@@ -133,8 +171,16 @@
                 </div>
 
                 <!-- Item 5 (Necklace) -->
-                <div x-show="activeFilter === 'all' || activeFilter === 'necklaces'" class="group cursor-pointer" @click="openModal = true; activeProduct = { name: 'Ancient Script Pendant', type: 'Necklace', material: '925 Sterling Silver', img: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=800' }">
-                    <div class="aspect-[3/4] overflow-hidden bg-white/5 mb-4">
+                <div x-show="activeFilter === 'all' || activeFilter === 'necklaces'"
+                     x-transition:enter="transition ease-out duration-300"
+                     x-transition:enter-start="opacity-0 transform scale-95"
+                     x-transition:enter-end="opacity-100 transform scale-100"
+                     x-transition:leave="transition ease-in duration-200"
+                     x-transition:leave-start="opacity-100 transform scale-100"
+                     x-transition:leave-end="opacity-0 transform scale-95"
+                     class="product-card group cursor-pointer reveal-scale" data-tilt data-delay="5" @click="openModal = true; activeProduct = { name: 'Ancient Script Pendant', type: 'Necklace', material: '925 Sterling Silver', img: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=800' }">
+                    <div class="product-card-inner aspect-[3/4] overflow-hidden bg-white/5 mb-4 relative">
+                        <div class="product-shine"></div>
                         <img src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=800" class="w-full h-full object-cover grayscale-[0.3] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000">
                     </div>
                     <h3 class="serif text-xl font-light">Ancient Script Pendant</h3>
@@ -142,8 +188,16 @@
                 </div>
 
                 <!-- Item 6 (Earrings) -->
-                <div x-show="activeFilter === 'all' || activeFilter === 'earrings'" class="group cursor-pointer" @click="openModal = true; activeProduct = { name: 'Himalayan Drop Earrings', type: 'Earrings', material: '925 Sterling Silver', img: 'https://images.unsplash.com/photo-1635767798638-3e25273a8236?w=800' }">
-                    <div class="aspect-[3/4] overflow-hidden bg-white/5 mb-4">
+                <div x-show="activeFilter === 'all' || activeFilter === 'earrings'"
+                     x-transition:enter="transition ease-out duration-300"
+                     x-transition:enter-start="opacity-0 transform scale-95"
+                     x-transition:enter-end="opacity-100 transform scale-100"
+                     x-transition:leave="transition ease-in duration-200"
+                     x-transition:leave-start="opacity-100 transform scale-100"
+                     x-transition:leave-end="opacity-0 transform scale-95"
+                     class="product-card group cursor-pointer reveal-scale" data-tilt data-delay="6" @click="openModal = true; activeProduct = { name: 'Himalayan Drop Earrings', type: 'Earrings', material: '925 Sterling Silver', img: 'https://images.unsplash.com/photo-1635767798638-3e25273a8236?w=800' }">
+                    <div class="product-card-inner aspect-[3/4] overflow-hidden bg-white/5 mb-4 relative">
+                        <div class="product-shine"></div>
                         <img src="https://images.unsplash.com/photo-1635767798638-3e25273a8236?w=800" class="w-full h-full object-cover grayscale-[0.3] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000">
                     </div>
                     <h3 class="serif text-xl font-light">Himalayan Drop Earrings</h3>
@@ -156,9 +210,9 @@
 
     <!-- Contact Section -->
     <section id="contact" class="py-16 px-4 md:px-8 border-t border-[#c9b89a]/50">
-        <div class="max-w-7xl mx-auto text-center">
+        <div class="max-w-7xl mx-auto text-center reveal">
             <h2 class="serif text-4xl mb-8 italic">Interested in a custom piece?</h2>
-            <a href="index.html#contact" class="inline-block bg-[#c9b89a] text-[#1a1714] px-12 py-5 text-[11px] uppercase tracking-[0.3em] font-bold hover:bg-[#c9b89a]/80 transition">Contact our Workshop</a>
+            <a href="index.html#contact" class="inline-block bg-[#c9b89a] text-[#1a1714] px-12 py-5 text-[11px] uppercase tracking-[0.3em] font-bold hover:bg-[#c9b89a]/80 transition btn-magnetic">Contact our Workshop</a>
         </div>
     </section>
 
@@ -177,7 +231,8 @@
          x-transition:leave-end="opacity-0"
          class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#1a1714]/95 backdrop-blur-md" x-cloak x-trap="openModal">
         
-        <div @click.away="openModal = false" class="bg-[#1a1714] max-w-5xl w-full max-h-[90vh] overflow-y-auto flex flex-col md:flex-row shadow-2xl relative">
+        <div @click.away="openModal = false" class="modal-content bg-[#1a1714] max-w-5xl w-full max-h-[90vh] overflow-y-auto flex flex-col md:flex-row shadow-2xl relative"
+             x-effect="openModal ? $el.classList.add('is-open') : $el.classList.remove('is-open')">
             <button @click="openModal = false" class="absolute top-6 right-6 z-10 serif italic text-xl hover:text-[#c9b89a]">Close —</button>
 
             <div class="md:w-1/2 bg-white/5">
@@ -199,12 +254,13 @@
                 </div>
 
                 <button @click="openModal = false; enquiryMessage = 'I am interested in wholesale pricing for the ' + activeProduct.name + '.'; window.location.hash = '#contact';" 
-                        class="bg-[#c9b89a] text-[#1a1714] text-center py-5 text-[11px] uppercase tracking-[0.2em] hover:bg-[#c9b89a]/80 transition">
+                        class="btn-magnetic bg-[#c9b89a] text-[#1a1714] text-center py-5 text-[11px] uppercase tracking-[0.2em] hover:bg-[#c9b89a]/80 transition">
                     Request Wholesale Details
                 </button>
             </div>
         </div>
     </div>
 
+    <script src="js/immersive.js"></script>
 </body>
 </html>
