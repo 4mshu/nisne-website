@@ -108,19 +108,36 @@
         }
     });
 
-    /* ── Parallax on story image ── */
+    /* ── Parallax on story image (desktop only) ── */
     const parallaxImg = document.querySelector('[data-parallax]');
     if (parallaxImg && !prefersReducedMotion) {
+        let parallaxTicking = false;
+
         function updateParallax() {
+            if (!isDesktop.matches) {
+                parallaxImg.style.transform = '';
+                parallaxTicking = false;
+                return;
+            }
             const rect = parallaxImg.closest('.parallax-wrap')?.getBoundingClientRect();
-            if (!rect) return;
+            if (!rect) {
+                parallaxTicking = false;
+                return;
+            }
             const center = rect.top + rect.height / 2;
-            const factor = isDesktop.matches ? 0.06 : 0.02;
-            const scale = isDesktop.matches ? 1.08 : 1.02;
-            const offset = (center - window.innerHeight / 2) * factor;
-            parallaxImg.style.transform = `translateY(${offset}px) scale(${scale})`;
+            const offset = (center - window.innerHeight / 2) * 0.06;
+            parallaxImg.style.transform = `translateY(${offset}px) scale(1.08)`;
+            parallaxTicking = false;
         }
-        window.addEventListener('scroll', updateParallax, { passive: true });
+
+        function onParallaxScroll() {
+            if (!parallaxTicking) {
+                requestAnimationFrame(updateParallax);
+                parallaxTicking = true;
+            }
+        }
+
+        window.addEventListener('scroll', onParallaxScroll, { passive: true });
         isDesktop.addEventListener('change', updateParallax);
         updateParallax();
     }

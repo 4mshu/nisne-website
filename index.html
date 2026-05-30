@@ -130,7 +130,7 @@
             </div>
 
             <!-- Best Sellers Carousel -->
-            <div data-carousel class="flex overflow-x-auto snap-x snap-mandatory no-scrollbar gap-8 pb-12 select-none">
+            <div data-carousel class="flex overflow-x-auto snap-x snap-mandatory no-scrollbar gap-4 md:gap-8 -mx-4 px-4 md:mx-0 md:px-0 pb-12 select-none">
                 <!-- Product 1 -->
                 <div x-show="activeFilter === 'all' || activeFilter === 'rings'"
                      x-transition:enter="transition ease-out duration-300"
@@ -139,7 +139,7 @@
                      x-transition:leave="transition ease-in duration-200"
                      x-transition:leave-start="opacity-100 transform scale-100"
                      x-transition:leave-end="opacity-0 transform scale-95"
-                     class="product-card flex-none w-[85vw] md:w-[calc(33.333%-1.5rem)] snap-start group cursor-pointer reveal-scale" data-tilt data-delay="1" @click="openModal = true; activeProduct = { name: 'The Vajra Lattice Ring', type: 'Ring', material: '925 Sterling Silver', img: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=800' }">
+                     class="product-card flex-none w-[82%] md:w-[calc(33.333%-1.5rem)] snap-start group cursor-pointer" data-tilt @click="openModal = true; activeProduct = { name: 'The Vajra Lattice Ring', type: 'Ring', material: '925 Sterling Silver', img: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=800' }">
                     <div class="product-card-inner aspect-[3/4] overflow-hidden bg-white/5 mb-6 relative">
                         <div class="product-shine"></div>
                         <img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=800" class="w-full h-full object-cover grayscale-[0.3] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000">
@@ -158,7 +158,7 @@
                      x-transition:leave="transition ease-in duration-200"
                      x-transition:leave-start="opacity-100 transform scale-100"
                      x-transition:leave-end="opacity-0 transform scale-95"
-                     class="product-card flex-none w-[85vw] md:w-[calc(33.333%-1.5rem)] snap-start group cursor-pointer reveal-scale" data-tilt data-delay="2" @click="openModal = true; activeProduct = { name: 'Himalayan Link Chain', type: 'Necklace', material: '925 Sterling Silver', img: 'https://images.unsplash.com/photo-1611085583191-a3b181a88401?w=800' }">
+                     class="product-card flex-none w-[82%] md:w-[calc(33.333%-1.5rem)] snap-start group cursor-pointer" data-tilt @click="openModal = true; activeProduct = { name: 'Himalayan Link Chain', type: 'Necklace', material: '925 Sterling Silver', img: 'https://images.unsplash.com/photo-1611085583191-a3b181a88401?w=800' }">
                     <div class="product-card-inner aspect-[3/4] overflow-hidden bg-white/5 mb-6 relative">
                         <div class="product-shine"></div>
                         <img src="https://images.unsplash.com/photo-1611085583191-a3b181a88401?w=800" class="w-full h-full object-cover grayscale-[0.3] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000">
@@ -177,7 +177,7 @@
                      x-transition:leave="transition ease-in duration-200"
                      x-transition:leave-start="opacity-100 transform scale-100"
                      x-transition:leave-end="opacity-0 transform scale-95"
-                     class="product-card flex-none w-[85vw] md:w-[calc(33.333%-1.5rem)] snap-start group cursor-pointer reveal-scale" data-tilt data-delay="3" @click="openModal = true; activeProduct = { name: 'Lotus Bud Earrings', type: 'Earrings', material: '925 Sterling Silver', img: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=800' }">
+                     class="product-card flex-none w-[82%] md:w-[calc(33.333%-1.5rem)] snap-start group cursor-pointer" data-tilt @click="openModal = true; activeProduct = { name: 'Lotus Bud Earrings', type: 'Earrings', material: '925 Sterling Silver', img: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=800' }">
                     <div class="product-card-inner aspect-[3/4] overflow-hidden bg-white/5 mb-6 relative">
                         <div class="product-shine"></div>
                         <img src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=800" class="w-full h-full object-cover grayscale-[0.3] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000">
@@ -196,7 +196,7 @@
                      x-transition:leave="transition ease-in duration-200"
                      x-transition:leave-start="opacity-100 transform scale-100"
                      x-transition:leave-end="opacity-0 transform scale-95"
-                     class="product-card flex-none w-[85vw] md:w-[calc(33.333%-1.5rem)] snap-start group cursor-pointer reveal-scale" data-tilt data-delay="4" @click="openModal = true; activeProduct = { name: 'The Mandala Band', type: 'Ring', material: '925 Sterling Silver', img: 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=800' }">
+                     class="product-card flex-none w-[82%] md:w-[calc(33.333%-1.5rem)] snap-start group cursor-pointer" data-tilt @click="openModal = true; activeProduct = { name: 'The Mandala Band', type: 'Ring', material: '925 Sterling Silver', img: 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=800' }">
                     <div class="product-card-inner aspect-[3/4] overflow-hidden bg-white/5 mb-6 relative">
                         <div class="product-shine"></div>
                         <img src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=800" class="w-full h-full object-cover grayscale-[0.3] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000">
@@ -215,7 +215,7 @@
                      x-transition:leave="transition ease-in duration-200"
                      x-transition:leave-start="opacity-100 transform scale-100"
                      x-transition:leave-end="opacity-0 transform scale-95"
-                     class="product-card flex-none w-[85vw] md:w-[calc(33.333%-1.5rem)] snap-start group cursor-pointer reveal-scale" data-tilt data-delay="5" @click="openModal = true; activeProduct = { name: 'Ancient Script Pendant', type: 'Necklace', material: '925 Sterling Silver', img: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=800' }">
+                     class="product-card flex-none w-[82%] md:w-[calc(33.333%-1.5rem)] snap-start group cursor-pointer" data-tilt @click="openModal = true; activeProduct = { name: 'Ancient Script Pendant', type: 'Necklace', material: '925 Sterling Silver', img: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=800' }">
                     <div class="product-card-inner aspect-[3/4] overflow-hidden bg-white/5 mb-6 relative">
                         <div class="product-shine"></div>
                         <img src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=800" class="w-full h-full object-cover grayscale-[0.3] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000">
@@ -234,7 +234,7 @@
                      x-transition:leave="transition ease-in duration-200"
                      x-transition:leave-start="opacity-100 transform scale-100"
                      x-transition:leave-end="opacity-0 transform scale-95"
-                     class="product-card flex-none w-[85vw] md:w-[calc(33.333%-1.5rem)] snap-start group cursor-pointer reveal-scale" data-tilt data-delay="6" @click="openModal = true; activeProduct = { name: 'Himalayan Drop Earrings', type: 'Earrings', material: '925 Sterling Silver', img: 'https://images.unsplash.com/photo-1635767798638-3e25273a8236?w=800' }">
+                     class="product-card flex-none w-[82%] md:w-[calc(33.333%-1.5rem)] snap-start group cursor-pointer" data-tilt @click="openModal = true; activeProduct = { name: 'Himalayan Drop Earrings', type: 'Earrings', material: '925 Sterling Silver', img: 'https://images.unsplash.com/photo-1635767798638-3e25273a8236?w=800' }">
                     <div class="product-card-inner aspect-[3/4] overflow-hidden bg-white/5 mb-6 relative">
                         <div class="product-shine"></div>
                         <img src="https://images.unsplash.com/photo-1635767798638-3e25273a8236?w=800" class="w-full h-full object-cover grayscale-[0.3] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000">
@@ -244,6 +244,7 @@
                         <span class="text-[9px] tracking-widest text-gray-300 uppercase">Details</span>
                     </div>
                 </div>
+                <div class="flex-none w-4 shrink-0 md:hidden" aria-hidden="true"></div>
             </div>
 
             <!-- Full Collection CTA -->

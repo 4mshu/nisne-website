@@ -203,8 +203,13 @@ nav > div {
 }
 
 .parallax-img {
-    will-change: transform;
-    transition: transform 0.1s linear;
+    will-change: auto;
+}
+
+@media (min-width: 768px) {
+    .parallax-img {
+        will-change: transform;
+    }
 }
 
 /* ── Interactive buttons ── */
@@ -317,6 +322,15 @@ nav > div {
 
     .scroll-progress {
         height: 1px;
+    }
+
+    [data-carousel] {
+        scroll-padding-inline: 1rem;
+    }
+
+    [data-carousel] .product-card {
+        perspective: none;
+        transform-style: flat;
     }
 }
 
