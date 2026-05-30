@@ -2,6 +2,8 @@
     'use strict';
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isDesktop = window.matchMedia('(min-width: 768px)');
+    const hasHover = window.matchMedia('(hover: hover)');
 
     /* ── Scroll progress bar ── */
     const progressBar = document.querySelector('.scroll-progress');
@@ -23,7 +25,7 @@
 
         nav.classList.toggle('nav-scrolled', scrollY > 60);
 
-        if (!prefersReducedMotion && scrollY > 200) {
+        if (!prefersReducedMotion && isDesktop.matches && scrollY > 200) {
             nav.classList.toggle('nav-hidden', scrollY > lastScrollY && scrollY > 300);
         } else {
             nav.classList.remove('nav-hidden');
@@ -45,7 +47,7 @@
 
     /* ── Cursor glow (desktop only) ── */
     const glow = document.querySelector('.cursor-glow');
-    if (glow && !prefersReducedMotion && window.matchMedia('(hover: hover)').matches) {
+    if (glow && !prefersReducedMotion && hasHover.matches) {
         let glowX = 0, glowY = 0;
         let targetX = 0, targetY = 0;
 
@@ -84,11 +86,11 @@
         });
     }
 
-    /* ── Product card 3D tilt ── */
-    if (!prefersReducedMotion && window.matchMedia('(hover: hover)').matches) {
-        document.querySelectorAll('[data-tilt]').forEach((card) => {
-            const inner = card.querySelector('.product-card-inner') || card;
+    /* ── Product card 3D tilt (desktop) + tap feedback (mobile) ── */
+    document.querySelectorAll('[data-tilt]').forEach((card) => {
+        const inner = card.querySelector('.product-card-inner') || card;
 
+        if (!prefersReducedMotion && hasHover.matches) {
             card.addEventListener('mousemove', (e) => {
                 const rect = card.getBoundingClientRect();
                 const x = (e.clientX - rect.left) / rect.width - 0.5;
@@ -99,8 +101,12 @@
             card.addEventListener('mouseleave', () => {
                 inner.style.transform = '';
             });
-        });
-    }
+        } else if (!prefersReducedMotion) {
+            card.addEventListener('touchstart', () => card.classList.add('is-tapped'), { passive: true });
+            card.addEventListener('touchend', () => card.classList.remove('is-tapped'), { passive: true });
+            card.addEventListener('touchcancel', () => card.classList.remove('is-tapped'), { passive: true });
+        }
+    });
 
     /* ── Parallax on story image ── */
     const parallaxImg = document.querySelector('[data-parallax]');
@@ -109,10 +115,13 @@
             const rect = parallaxImg.closest('.parallax-wrap')?.getBoundingClientRect();
             if (!rect) return;
             const center = rect.top + rect.height / 2;
-            const offset = (center - window.innerHeight / 2) * 0.06;
-            parallaxImg.style.transform = `translateY(${offset}px) scale(1.08)`;
+            const factor = isDesktop.matches ? 0.06 : 0.02;
+            const scale = isDesktop.matches ? 1.08 : 1.02;
+            const offset = (center - window.innerHeight / 2) * factor;
+            parallaxImg.style.transform = `translateY(${offset}px) scale(${scale})`;
         }
         window.addEventListener('scroll', updateParallax, { passive: true });
+        isDesktop.addEventListener('change', updateParallax);
         updateParallax();
     }
 
@@ -125,9 +134,9 @@
         });
     });
 
-    /* ── Smooth carousel drag (enhanced scroll) ── */
+    /* ── Smooth carousel drag (desktop only) ── */
     const carousel = document.querySelector('[data-carousel]');
-    if (carousel) {
+    if (carousel && hasHover.matches) {
         let isDown = false;
         let startX, scrollLeft;
 

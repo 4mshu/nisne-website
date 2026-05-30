@@ -180,6 +180,23 @@ nav > div {
     transform: translateX(100%);
 }
 
+/* Touch tap feedback (mobile) */
+@media (hover: none), (pointer: coarse) {
+    .product-card.is-tapped .product-card-inner {
+        transform: scale(0.97);
+        transition: transform 0.15s ease-out;
+    }
+
+    .product-card.is-tapped .product-card-inner img {
+        filter: grayscale(0);
+    }
+
+    .product-card.is-tapped .product-shine {
+        transform: translateX(100%);
+        transition: transform 0.4s ease;
+    }
+}
+
 /* ── Parallax image ── */
 .parallax-wrap {
     overflow: hidden;
@@ -211,6 +228,13 @@ nav > div {
 
 .btn-magnetic:hover::before {
     opacity: 1;
+}
+
+@media (hover: none), (pointer: coarse) {
+    .btn-magnetic:active {
+        transform: scale(0.97);
+        opacity: 0.92;
+    }
 }
 
 /* ── Modal scale-in ── */
@@ -275,6 +299,25 @@ nav > div {
 @keyframes pulseHint {
     0%, 100% { opacity: 0.4; transform: translateX(0); }
     50% { opacity: 1; transform: translateX(6px); }
+}
+
+/* ── Mobile layout & motion tuning ── */
+@media (max-width: 767px) {
+    nav.nav-hidden {
+        transform: none;
+    }
+
+    .reveal { transform: translateY(16px); }
+    .reveal-left { transform: translateX(-20px); }
+    .reveal-right { transform: translateX(20px); }
+
+    .grain-overlay {
+        opacity: 0.02;
+    }
+
+    .scroll-progress {
+        height: 1px;
+    }
 }
 
 /* ── Reduced motion ── */
