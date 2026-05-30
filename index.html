@@ -7,6 +7,8 @@
     
     <!-- Scripts -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="js/config.js"></script>
+    <script src="js/enquiry.js"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     
     <!-- Fonts -->
@@ -59,7 +61,7 @@
     }
     </script>
 </head>
-<body x-data="{ openModal: false, activeProduct: {}, enquiryMessage: '', activeFilter: 'all', mobileMenuOpen: false }">
+<body x-data="nisneApp()">
 
     <!-- Ambient layers -->
     <div class="grain-overlay" aria-hidden="true"></div>
@@ -298,8 +300,8 @@
                     </div>
                     <div class="pt-8">
                          <div class="flex gap-6">
-                            <span class="btn-magnetic text-[10px] uppercase tracking-widest border border-[#c9b89a]/50 px-4 py-2 hover:bg-[#faf7f2] hover:text-[#1a1714] cursor-pointer transition">WhatsApp</span>
-                            <span class="btn-magnetic text-[10px] uppercase tracking-widest border border-[#c9b89a]/50 px-4 py-2 hover:bg-[#faf7f2] hover:text-[#1a1714] cursor-pointer transition">Instagram</span>
+                            <a href="https://wa.me/9779843671831" target="_blank" rel="noopener noreferrer" class="btn-magnetic text-[10px] uppercase tracking-widest border border-[#c9b89a]/50 px-4 py-2 hover:bg-[#faf7f2] hover:text-[#1a1714] transition">WhatsApp</a>
+                            <a href="https://www.instagram.com/amshufr/" target="_blank" rel="noopener noreferrer" class="btn-magnetic text-[10px] uppercase tracking-widest border border-[#c9b89a]/50 px-4 py-2 hover:bg-[#faf7f2] hover:text-[#1a1714] transition">Instagram</a>
                          </div>
                     </div>
                 </div>
@@ -307,22 +309,64 @@
 
             <!-- Form -->
             <div class="reveal-right bg-white/5 p-10 md:p-16 backdrop-blur-sm border border-white/10" data-delay="1">
-                <form class="space-y-12">
+                <!-- Success state -->
+                <div x-show="submitSuccess" x-cloak class="text-center py-12 space-y-6">
+                    <p class="serif text-3xl italic">Thank you.</p>
+                    <p class="text-gray-300 font-light leading-relaxed">Your enquiry has been sent. We will be in touch shortly.</p>
+                    <button @click="resetForm()" class="btn-magnetic text-[11px] uppercase tracking-[0.3em] border border-[#c9b89a]/50 px-8 py-3 hover:bg-[#faf7f2] hover:text-[#1a1714] transition">Send another enquiry</button>
+                </div>
+
+                <!-- Form -->
+                <form x-show="!submitSuccess" @submit="submitEnquiry($event)" class="space-y-12" novalidate>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-                        <div class="flex flex-col border-b border-white/20 pb-2 focus-within:border-white transition">
-                            <label class="text-[9px] uppercase tracking-widest mb-2 opacity-50">Name</label>
-                            <input type="text" placeholder="Sarah Mitchell" class="bg-transparent outline-none font-light placeholder:text-white/20">
+                        <div class="flex flex-col border-b pb-2 transition"
+                             :class="fieldError('name') ? 'border-red-400/60' : 'border-white/20 focus-within:border-white'">
+                            <label for="enquiry-name" class="text-[9px] uppercase tracking-widest mb-2 opacity-50">Name <span class="text-[#c9b89a]">*</span></label>
+                            <input id="enquiry-name" type="text" required x-model="form.name" @blur="touch('name')"
+                                   placeholder="Sarah Mitchell"
+                                   class="bg-transparent outline-none font-light placeholder:text-white/20">
+                            <p x-show="fieldError('name')" x-text="fieldError('name')" class="text-[10px] text-red-400/80 mt-2" x-cloak></p>
                         </div>
-                        <div class="flex flex-col border-b border-white/20 pb-2 focus-within:border-white transition">
-                            <label class="text-[9px] uppercase tracking-widest mb-2 opacity-50">Business</label>
-                            <input type="text" placeholder="Mitchell & Co." class="bg-transparent outline-none font-light placeholder:text-white/20">
+                        <div class="flex flex-col border-b pb-2 transition"
+                             :class="fieldError('email') ? 'border-red-400/60' : 'border-white/20 focus-within:border-white'">
+                            <label for="enquiry-email" class="text-[9px] uppercase tracking-widest mb-2 opacity-50">Email <span class="text-[#c9b89a]">*</span></label>
+                            <input id="enquiry-email" type="email" required x-model="form.email" @blur="touch('email')"
+                                   placeholder="sarah@example.com"
+                                   class="bg-transparent outline-none font-light placeholder:text-white/20">
+                            <p x-show="fieldError('email')" x-text="fieldError('email')" class="text-[10px] text-red-400/80 mt-2" x-cloak></p>
                         </div>
                     </div>
-                    <div class="flex flex-col border-b border-white/20 pb-2 focus-within:border-white transition">
-                        <label class="text-[9px] uppercase tracking-widest mb-2 opacity-50">Message</label>
-                        <textarea x-model="enquiryMessage" rows="4" placeholder="How can we help you?" class="bg-transparent outline-none font-light resize-none placeholder:text-white/20"></textarea>
+                    <div class="flex flex-col border-b pb-2 transition"
+                         :class="fieldError('business') ? 'border-red-400/60' : 'border-white/20 focus-within:border-white'">
+                        <label for="enquiry-business" class="text-[9px] uppercase tracking-widest mb-2 opacity-50">Business <span class="text-[#c9b89a]">*</span></label>
+                        <input id="enquiry-business" type="text" required x-model="form.business" @blur="touch('business')"
+                               placeholder="Mitchell & Co."
+                               class="bg-transparent outline-none font-light placeholder:text-white/20">
+                        <p x-show="fieldError('business')" x-text="fieldError('business')" class="text-[10px] text-red-400/80 mt-2" x-cloak></p>
                     </div>
-                    <button class="btn-magnetic w-full bg-[#c9b89a] text-[#1a1714] py-5 text-[11px] uppercase tracking-[0.3em] font-bold hover:bg-[#c9b89a]/80 transition">Send Enquiry</button>
+                    <div class="flex flex-col border-b pb-2 transition"
+                         :class="fieldError('message') ? 'border-red-400/60' : 'border-white/20 focus-within:border-white'">
+                        <div class="flex justify-between items-baseline mb-2">
+                            <label for="enquiry-message" class="text-[9px] uppercase tracking-widest opacity-50">Message <span class="text-[#c9b89a]">*</span></label>
+                            <span class="text-[9px] tracking-widest"
+                                  :class="messageLength >= 50 ? 'text-[#c9b89a]' : 'text-gray-400'"
+                                  x-text="messageLength + ' / 50 minimum'"></span>
+                        </div>
+                        <textarea id="enquiry-message" required minlength="50" x-model="enquiryMessage" @blur="touch('message')"
+                                  rows="4" placeholder="How can we help you?"
+                                  class="bg-transparent outline-none font-light resize-none placeholder:text-white/20"></textarea>
+                        <p x-show="fieldError('message')" x-text="fieldError('message')" class="text-[10px] text-red-400/80 mt-2" x-cloak></p>
+                    </div>
+
+                    <p x-show="submitError" x-text="submitError" class="text-[11px] text-red-400/80 text-center" x-cloak></p>
+
+                    <button type="submit"
+                            :disabled="!isFormValid || submitting"
+                            :class="isFormValid && !submitting ? 'hover:bg-[#c9b89a]/80 cursor-pointer' : 'opacity-40 cursor-not-allowed'"
+                            class="btn-magnetic w-full bg-[#c9b89a] text-[#1a1714] py-5 text-[11px] uppercase tracking-[0.3em] font-bold transition">
+                        <span x-show="!submitting">Send Enquiry</span>
+                        <span x-show="submitting" x-cloak>Sending…</span>
+                    </button>
                 </form>
             </div>
         </div>

@@ -1,0 +1,7 @@
+{
+  "name": "nisne-website",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/build-config.js"
+  }
+}
